@@ -1,9 +1,13 @@
+use std::{thread::sleep, time::Duration};
+
+use shuttle_secrets::SecretStore;
 use shuttle_service::error::CustomError;
 
 use crate::db_service::DbService;
 
 pub struct MainService {
     pub db_service: DbService,
+    pub secret_store: SecretStore,
 }
 
 #[shuttle_service::async_trait]
@@ -24,6 +28,10 @@ impl MainService {
             .fetch_one(&self.db_service.pool)
             .await
             .map_err(CustomError::new)?;
+
+        loop {
+            sleep(Duration::from_secs(10));
+        }
 
         Ok(())
     }
