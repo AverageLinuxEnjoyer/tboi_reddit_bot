@@ -1,0 +1,13 @@
+[package]
+name = "tboibot"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+
+[dependencies]
+shuttle-secrets = "0.8.0"
+shuttle-service = { version = "0.8.0" }
+shuttle-shared-db = { version = "0.8.0", features = ["postgres"] }
+sqlx = { version = "0.6.2", features = ["postgres"] }
