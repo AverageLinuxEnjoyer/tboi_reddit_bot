@@ -15,7 +15,7 @@ pub struct Collectible {
 
     pub name: String,
     pub quote: Option<String>,
-    pub quality: Option<u8>,
+    pub quality: Option<i32>,
 
     pub unlock: Option<String>,
     pub item_type: Option<String>,
