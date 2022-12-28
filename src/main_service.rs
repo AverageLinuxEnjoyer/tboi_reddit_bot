@@ -2,12 +2,13 @@ use std::{thread::sleep, time::Duration};
 
 use shuttle_secrets::SecretStore;
 use shuttle_service::error::CustomError;
+use tracing::info;
 
-use crate::db_service::DbService;
+use crate::{credentials::Credentials, db_service::DbService, reddit_service::RedditService};
 
 pub struct MainService {
     pub db_service: DbService,
-    pub secret_store: SecretStore,
+    pub reddit_service: RedditService,
 }
 
 #[shuttle_service::async_trait]
@@ -23,16 +24,10 @@ impl shuttle_service::Service for MainService {
 }
 
 impl MainService {
-    async fn start(&self) -> Result<(), shuttle_service::error::CustomError> {
-        let (_rec,): (String,) = sqlx::query_as("SELECT 'Hello world'")
-            .fetch_one(&self.db_service.pool)
-            .await
-            .map_err(CustomError::new)?;
-
+    async fn start(&self) -> Result<(), CustomError> {
+        info!("Main service started.");
         loop {
             sleep(Duration::from_secs(10));
         }
-
-        Ok(())
     }
 }
