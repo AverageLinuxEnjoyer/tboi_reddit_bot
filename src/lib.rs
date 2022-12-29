@@ -14,6 +14,8 @@ pub mod credentials;
 pub mod db_service;
 pub mod main_service;
 pub mod reddit_service;
+pub mod reddit_service_builder;
+pub mod utils;
 
 #[shuttle_service::main]
 async fn init(

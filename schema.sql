@@ -14,5 +14,7 @@ CREATE TABLE collectibles (
     recharge_time VARCHAR(255),
     item_pool VARCHAR(255),
 
-    description VARCHAR(1024)
+    description VARCHAR(2048) NOT NULL,
+
+    wiki_link VARCHAR(255) NOT NULL
 );

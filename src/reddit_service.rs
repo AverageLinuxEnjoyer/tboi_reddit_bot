@@ -1,13 +1,17 @@
-use std::time::Duration;
-
-use crate::credentials::{self, Credentials};
+use crate::{
+    collectible::Collectible,
+    credentials::{self, Credentials},
+    reddit_service_builder::RedditServiceBuilder,
+};
 use anyhow::Result;
 use roux::{Me, Reddit, Subreddit};
+use std::time::Duration;
+use tracing::info;
 
 pub struct RedditService {
-    client: Me,
-    subreddit: Subreddit,
-    sleep_time: Duration,
+    pub client: Me,
+    pub subreddit: Subreddit,
+    pub sleep_time: Duration,
 }
 
 #[allow(clippy::new_ret_no_self)]
@@ -19,42 +23,11 @@ impl RedditService {
             sleep_time: None,
         }
     }
-}
 
-pub struct RedditServiceBuilder {
-    credentials: Credentials,
-    subreddit: Option<Subreddit>,
-    sleep_time: Option<Duration>,
-}
+    pub async fn reply(&mut self, comment_fullname: &str, collectibles: &[Collectible]) {
+        let body = String::new();
 
-impl RedditServiceBuilder {
-    pub async fn build(self) -> Result<RedditService> {
-        Ok(RedditService {
-            client: Reddit::new(
-                &self.credentials.user_agent,
-                &self.credentials.client_id,
-                &self.credentials.client_secret,
-            )
-            .username(&self.credentials.username)
-            .password(&self.credentials.password)
-            .login()
-            .await?,
-            subreddit: self
-                .subreddit
-                .unwrap_or_else(|| Subreddit::new("bindingofisaac")),
-            sleep_time: self.sleep_time.unwrap_or_else(|| Duration::from_secs(10)),
-        })
-    }
-
-    pub fn subreddit(mut self, subreddit: &str) -> Self {
-        self.subreddit = Some(Subreddit::new(subreddit));
-
-        self
-    }
-
-    pub fn sleep_time(mut self, sleep_time: Duration) -> Self {
-        self.sleep_time = Some(sleep_time);
-
-        self
+        let a = format!("{:?}", collectibles);
+        info!(a);
     }
 }

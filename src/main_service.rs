@@ -1,10 +1,15 @@
-use std::{thread::sleep, time::Duration};
-
+use crate::{
+    credentials::Credentials, db_service::DbService, reddit_service::RedditService,
+    utils::extract_strings_between,
+};
+use anyhow::{Error, Result};
+use futures::StreamExt;
+use roux_stream::stream_comments;
 use shuttle_secrets::SecretStore;
 use shuttle_service::error::CustomError;
+use std::{thread::sleep, time::Duration};
+use tokio_retry::strategy::ExponentialBackoff;
 use tracing::info;
-
-use crate::{credentials::Credentials, db_service::DbService, reddit_service::RedditService};
 
 pub struct MainService {
     pub db_service: DbService,
@@ -22,12 +27,55 @@ impl shuttle_service::Service for MainService {
         Ok(())
     }
 }
+fn print_type_of<T>(_: &T) {
+    println!("{}", std::any::type_name::<T>())
+}
 
 impl MainService {
-    async fn start(&self) -> Result<(), CustomError> {
+    async fn start(&mut self) -> Result<(), CustomError> {
         info!("Main service started.");
-        loop {
-            sleep(Duration::from_secs(10));
+
+        let retry_strategy = ExponentialBackoff::from_millis(5).factor(100).take(3);
+
+        let mut stream = stream_comments(
+            &self.reddit_service.subreddit,
+            self.reddit_service.sleep_time,
+            retry_strategy,
+            Some(Duration::from_secs(10)),
+        )
+        .0;
+
+        while let Some(comment) = stream.next().await {
+            let (fullname, body) = match || -> Result<_> {
+                let comment = comment?;
+
+                let id = comment.id.ok_or_else(|| Error::msg("no id"))?;
+                let fullname = format!("t1_{}", id);
+
+                let body = comment.body.ok_or_else(|| Error::msg("no body"))?;
+
+                Ok((fullname, body))
+            }() {
+                Ok(res) => res,
+                Err(_) => continue,
+            };
+
+            let keywords = extract_strings_between(&body);
+            let keywords_as_refs = keywords.iter().map(|c| c.as_str()).collect::<Vec<_>>();
+
+            if keywords.is_empty() {
+                continue;
+            }
+
+            let collectibles = self.db_service.get_collectibles(&keywords_as_refs).await;
+
+            if collectibles.is_empty() {
+                continue;
+            }
+
+            self.reddit_service.reply(&fullname, &collectibles).await;
         }
+
+        todo!();
     }
 }

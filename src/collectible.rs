@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 use serde::{Deserialize, Serialize};
+use sqlx::FromRow;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub enum Kind {
@@ -9,9 +10,15 @@ pub enum Kind {
     Pickup,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+impl Into<String> for Kind {
+    fn into(self) -> String {
+        format!("{:?}", self)
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, FromRow)]
 pub struct Collectible {
-    pub kind: Kind,
+    pub kind: String,
 
     pub name: String,
     pub quote: Option<String>,
@@ -23,6 +30,8 @@ pub struct Collectible {
     pub item_pool: Option<String>,
 
     pub description: String,
+
+    pub wiki_link: String,
 }
 
 impl Display for Collectible {
@@ -36,6 +45,7 @@ impl Display for Collectible {
         writeln!(f, "\titem_type: {:?},", self.item_type)?;
         writeln!(f, "\trecharge_time: {:?},", self.recharge_time)?;
         writeln!(f, "\titem_pool: {:?},", self.item_pool)?;
+        writeln!(f, "\twiki_link: \"{}\",", self.wiki_link)?;
         writeln!(f, "\tdescription:")?;
         write!(f, "{}", "=".repeat(80))?;
         writeln!(f, "{}", self.description)?;
