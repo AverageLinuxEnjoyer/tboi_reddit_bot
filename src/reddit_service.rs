@@ -59,7 +59,13 @@ impl RedditService {
                 Some(t) => format!("{} Item", t),
                 None => c.kind.clone(),
             };
-            let second_line = format!("**Type:** {}\n\n", item_type);
+
+            let quality = match c.quality {
+                Some(quality) => format!(", **Quality:** {}", quality),
+                None => String::new(),
+            };
+
+            let second_line = format!("**Type:** {}{}\n\n", item_type, quality);
             body.push_str(&second_line);
 
             if let Some(time) = c.recharge_time.as_ref() {
