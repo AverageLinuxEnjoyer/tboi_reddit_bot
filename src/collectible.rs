@@ -16,7 +16,7 @@ impl Into<String> for Kind {
     }
 }
 
-#[derive(Debug, Serialize, Deserialize, FromRow)]
+#[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
 pub struct Collectible {
     pub kind: String,
 
