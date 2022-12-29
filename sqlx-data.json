@@ -1,0 +1,151 @@
+{
+  "db": "PostgreSQL",
+  "3b3718451dfef48363c285e41caf45bc3141194e30325fa59a6e752cfe363b83": {
+    "describe": {
+      "columns": [
+        {
+          "name": "kind",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "quote",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "quality",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "unlock",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "item_type",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "recharge_time",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "item_pool",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "description",
+          "ordinal": 8,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "wiki_link",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT * FROM collectibles WHERE LOWER(name) = $1 LIMIT 10"
+  },
+  "fef8a00e0de15dbc41f757a6255d9b0698488cc506f37011681b50d253e92371": {
+    "describe": {
+      "columns": [
+        {
+          "name": "kind",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "name",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "quote",
+          "ordinal": 2,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "quality",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "unlock",
+          "ordinal": 4,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "item_type",
+          "ordinal": 5,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "recharge_time",
+          "ordinal": 6,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "item_pool",
+          "ordinal": 7,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "description",
+          "ordinal": 8,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "wiki_link",
+          "ordinal": 9,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT * FROM collectibles WHERE LOWER(name) LIKE $1 LIMIT 10"
+  }
+}
