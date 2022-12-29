@@ -1,13 +1,9 @@
-use crate::{
-    credentials::Credentials, db_service::DbService, reddit_service::RedditService,
-    utils::extract_strings_between,
-};
+use crate::{db_service::DbService, reddit_service::RedditService, utils::extract_strings_between};
 use anyhow::{Error, Result};
 use futures::StreamExt;
 use roux_stream::stream_comments;
-use shuttle_secrets::SecretStore;
 use shuttle_service::error::CustomError;
-use std::{thread::sleep, time::Duration};
+use std::time::Duration;
 use tokio_retry::strategy::ExponentialBackoff;
 use tracing::info;
 
@@ -26,9 +22,6 @@ impl shuttle_service::Service for MainService {
 
         Ok(())
     }
-}
-fn print_type_of<T>(_: &T) {
-    println!("{}", std::any::type_name::<T>())
 }
 
 impl MainService {

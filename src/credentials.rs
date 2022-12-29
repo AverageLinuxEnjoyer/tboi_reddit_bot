@@ -1,7 +1,6 @@
 use anyhow::Error;
 use anyhow::Result;
 use shuttle_secrets::SecretStore;
-use sqlx::FromRow;
 
 #[derive(Debug)]
 pub struct Credentials {

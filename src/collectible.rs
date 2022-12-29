@@ -1,20 +1,6 @@
-use std::fmt::Display;
-
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
-
-#[derive(Debug, Serialize, Deserialize)]
-pub enum Kind {
-    Item,
-    Trinket,
-    Pickup,
-}
-
-impl Into<String> for Kind {
-    fn into(self) -> String {
-        format!("{:?}", self)
-    }
-}
+use std::fmt::Display;
 
 #[derive(Debug, Serialize, Deserialize, FromRow, Clone)]
 pub struct Collectible {

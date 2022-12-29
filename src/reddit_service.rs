@@ -1,12 +1,8 @@
 use crate::{
-    collectible::{self, Collectible},
-    credentials::{self, Credentials},
+    collectible::Collectible, credentials::Credentials,
     reddit_service_builder::RedditServiceBuilder,
 };
-use anyhow::Result;
-use roux::{Me, Reddit, Subreddit};
-use std::fmt::{write, Write as _};
-use std::io::Write as _;
+use roux::{Me, Subreddit};
 use std::time::Duration;
 use tracing::info;
 
