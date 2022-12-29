@@ -1,5 +1,5 @@
 use anyhow::Result;
-use sqlx::{Executor, PgPool};
+use sqlx::{query_as, Executor, PgPool};
 use tracing::info;
 
 use crate::collectible::Collectible;
