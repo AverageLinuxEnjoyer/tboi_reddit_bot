@@ -6,7 +6,7 @@ use main_service::MainService;
 use reddit_service::RedditService;
 use shuttle_secrets::SecretStore;
 use tracing::info;
-pub mod collectible2;
+pub mod collectible;
 pub mod credentials;
 pub mod main_service;
 pub mod reddit_service;
@@ -22,9 +22,9 @@ async fn init(
     info!("Credentials loaded succesfully.");
 
     Ok(MainService {
-        repo: Repo::new()?,
+        repo: Repo::new(include_str!("../items.json"))?,
         reddit_service: RedditService::new(credentials)
-            .subreddit("bindingofisaac")
+            .subreddit("onlyfans")
             .sleep_time(Duration::from_secs(5))
             .build()
             .await?,

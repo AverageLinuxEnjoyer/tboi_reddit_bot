@@ -1,5 +1,7 @@
-use crate::collectible2::*;
+use crate::collectible::*;
 use crate::{credentials::Credentials, reddit_service_builder::RedditServiceBuilder};
+use anyhow::{Error, Result};
+use reqwest::Response;
 use roux::{Me, Subreddit};
 use std::time::Duration;
 use tracing::info;
@@ -23,36 +25,35 @@ impl RedditService {
     pub async fn reply(
         &mut self,
         comment_fullname: &str,
-        collectibles: &[&crate::collectible2::Collectible],
-    ) {
+        collectibles: &[&crate::collectible::Collectible],
+    ) -> Result<Response> {
+        // only allow a maximum of 5 items per reply
+        //? maybe extract that magic number into a variable?
         let mut collectibles = collectibles.to_vec();
         collectibles.truncate(5);
 
         let body = Self::get_body(&collectibles);
 
-        let _ = self.client.comment(&body, comment_fullname).await;
-
-        let msg = format!(
-            "Replied to {} with info about: {}",
-            comment_fullname,
-            collectibles
-                .into_iter()
-                .map(|c| format!("[{}], ", c.name))
-                .collect::<String>()
-        );
-
-        info!(msg);
+        self.client
+            .comment(&body, comment_fullname)
+            .await
+            .map_err(|err| Error::msg(err.to_string()))
     }
 
+    //? is a function even needed here?
     fn get_description_formatted(description_raw: &str) -> String {
         description_raw.replace('\n', "\n\n> ").trim().to_string()
     }
 
+    //? make this a const variable instead?
+    //? or perhaps keep it a function, but let it return a String
+    //? to allow the possibility of a dynamicly chosen footer?
     fn get_footer() -> &'static str {
         "^(I am a bot and this action was performed automatically, for more info check my profile description. Data fetched from )^[platinumgod.](https://platinumgod.co.uk/)"
     }
 
-    fn get_body(collectibles: &[&crate::collectible2::Collectible]) -> String {
+    // TODO: Refactor
+    fn get_body(collectibles: &[&Collectible]) -> String {
         use CollectibleType::*;
         use ItemType::*;
         use NonPickupType::*;

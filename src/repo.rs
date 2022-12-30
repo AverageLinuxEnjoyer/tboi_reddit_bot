@@ -2,15 +2,14 @@ use anyhow::Result;
 use distance::damerau_levenshtein;
 use std::collections::{HashMap, HashSet};
 
-use crate::collectible2::Collectible;
+use crate::collectible::Collectible;
 pub struct Repo {
     pub collectibles: Vec<Collectible>,
     pub redirects: HashMap<&'static str, Vec<&'static str>>,
 }
 
 impl Repo {
-    pub fn new() -> Result<Self> {
-        let data_file = include_str!("../holy.json");
+    pub fn new(data_file: &str) -> Result<Self> {
         let mut collectibles: Vec<Collectible> = serde_json::from_str(data_file)?;
         collectibles.sort();
 
@@ -27,7 +26,7 @@ impl Repo {
         })
     }
 
-    pub fn get_collectibles(&self, names: &[&str]) -> Vec<&Collectible> {
+    pub fn get_collectibles(&self, names: &[String]) -> Vec<&Collectible> {
         let mut res = Vec::new();
         let mut redirects = vec![];
 

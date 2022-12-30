@@ -39,36 +39,53 @@ impl MainService {
         .0;
 
         while let Some(comment) = stream.next().await {
-            let (fullname, body) = match || -> Result<_> {
+            let (comment_fullname, comment_author, comment_body) = match || -> Result<_> {
                 let comment = comment?;
 
                 let id = comment.id.ok_or_else(|| Error::msg("no id"))?;
                 let fullname = format!("t1_{}", id);
 
+                let author = comment.author.ok_or_else(|| Error::msg("no author"))?;
+
                 let body = comment.body.ok_or_else(|| Error::msg("no body"))?;
 
-                Ok((fullname, body))
+                Ok((fullname, author, body))
             }() {
                 Ok(res) => res,
                 Err(_) => continue,
             };
 
-            let keywords = extract_strings_between(&body);
-            let keywords_as_refs = keywords.iter().map(|c| c.as_str()).collect::<Vec<_>>();
+            let keywords = extract_strings_between(&comment_body);
 
             if keywords.is_empty() {
                 continue;
             }
 
-            let mut collectibles = self.repo.get_collectibles(&keywords_as_refs);
+            let collectibles = self.repo.get_collectibles(&keywords);
 
             if collectibles.is_empty() {
                 continue;
             }
 
-            collectibles.truncate(5);
+            let response = self
+                .reddit_service
+                .reply(&comment_fullname, &collectibles)
+                .await;
 
-            self.reddit_service.reply(&fullname, &collectibles).await;
+            let msg = match response {
+                Ok(_) => format!(
+                    "Replied to [{}, {}] with info about: {:?}",
+                    comment_author,
+                    comment_fullname,
+                    collectibles
+                        .into_iter()
+                        .map(|c| &c.name)
+                        .collect::<Vec<&String>>()
+                ),
+                Err(err) => format!("Replying to a comment didn't work, error: {}", err),
+            };
+
+            info!(msg);
         }
 
         todo!();

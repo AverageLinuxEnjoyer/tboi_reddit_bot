@@ -1,42 +1,48 @@
 use serde::{Deserialize, Serialize};
-use std::fmt::Display;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub enum ItemType {
+    Passive,
+    Active {
+        recharge_time: String,
+        item_pool: Option<String>,
+    },
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub enum CollectibleType {
+    NonPickup {
+        id: i32,
+        quote: String,
+        non_pickup_type: NonPickupType,
+    },
+    Pickup,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
+pub enum NonPickupType {
+    Item { quality: u8, item_type: ItemType },
+    Trinket,
+    Consumable,
+}
+
+#[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub struct Collectible {
-    pub kind: String,
-
     pub name: String,
-    pub quote: Option<String>,
-    pub quality: Option<i32>,
-
-    pub unlock: Option<String>,
-    pub item_type: Option<String>,
-    pub recharge_time: Option<String>,
-    pub item_pool: Option<String>,
-
     pub description: String,
-
+    pub collectible_type: CollectibleType,
+    pub unlock: Option<String>,
     pub wiki_link: String,
 }
 
-impl Display for Collectible {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.kind)?;
-        writeln!(f, " {{")?;
-        writeln!(f, "\tname: \"{}\",", self.name)?;
-        writeln!(f, "\tquote: {:?},", self.quote)?;
-        writeln!(f, "\tquality: {:?},", self.quality)?;
-        writeln!(f, "\tunlock: {:?},", self.unlock)?;
-        writeln!(f, "\titem_type: {:?},", self.item_type)?;
-        writeln!(f, "\trecharge_time: {:?},", self.recharge_time)?;
-        writeln!(f, "\titem_pool: {:?},", self.item_pool)?;
-        writeln!(f, "\twiki_link: \"{}\",", self.wiki_link)?;
-        writeln!(f, "\tdescription:")?;
-        write!(f, "{}", "=".repeat(80))?;
-        writeln!(f, "{}", self.description)?;
-        writeln!(f, "{}", "=".repeat(80))?;
-        write!(f, "}}")?;
+impl PartialOrd for Collectible {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        self.name.partial_cmp(&other.name)
+    }
+}
 
-        Ok(())
+impl Ord for Collectible {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        self.name.cmp(&other.name)
     }
 }
