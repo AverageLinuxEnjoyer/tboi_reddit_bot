@@ -1,4 +1,7 @@
-use crate::{db_service::DbService, reddit_service::RedditService, utils::extract_strings_between};
+use crate::{
+    db_service::DbService, reddit_service::RedditService, repo::Repo,
+    utils::extract_strings_between,
+};
 use anyhow::{Error, Result};
 use futures::StreamExt;
 use roux_stream::stream_comments;
@@ -38,6 +41,8 @@ impl MainService {
         )
         .0;
 
+        let repo = Repo::new()?;
+
         while let Some(comment) = stream.next().await {
             let (fullname, body) = match || -> Result<_> {
                 let comment = comment?;
@@ -60,11 +65,14 @@ impl MainService {
                 continue;
             }
 
-            let collectibles = self.db_service.get_collectibles(&keywords_as_refs).await;
+            // let collectibles = self.db_service.get_collectibles(&keywords_as_refs).await;
+            let mut collectibles = repo.get_collectibles(&keywords_as_refs);
 
             if collectibles.is_empty() {
                 continue;
             }
+
+            collectibles.truncate(5);
 
             self.reddit_service.reply(&fullname, &collectibles).await;
         }
