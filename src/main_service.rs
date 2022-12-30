@@ -1,7 +1,4 @@
-use crate::{
-    db_service::DbService, reddit_service::RedditService, repo::Repo,
-    utils::extract_strings_between,
-};
+use crate::{reddit_service::RedditService, repo::Repo, utils::extract_strings_between};
 use anyhow::{Error, Result};
 use futures::StreamExt;
 use roux_stream::stream_comments;
@@ -11,7 +8,7 @@ use tokio_retry::strategy::ExponentialBackoff;
 use tracing::info;
 
 pub struct MainService {
-    pub db_service: DbService,
+    pub repo: Repo,
     pub reddit_service: RedditService,
 }
 
@@ -41,8 +38,6 @@ impl MainService {
         )
         .0;
 
-        let repo = Repo::new()?;
-
         while let Some(comment) = stream.next().await {
             let (fullname, body) = match || -> Result<_> {
                 let comment = comment?;
@@ -65,8 +60,7 @@ impl MainService {
                 continue;
             }
 
-            // let collectibles = self.db_service.get_collectibles(&keywords_as_refs).await;
-            let mut collectibles = repo.get_collectibles(&keywords_as_refs);
+            let mut collectibles = self.repo.get_collectibles(&keywords_as_refs);
 
             if collectibles.is_empty() {
                 continue;
