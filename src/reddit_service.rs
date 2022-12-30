@@ -147,6 +147,8 @@ impl RedditService {
             all.push_str("&nbsp;\n\n");
         }
 
+        all.push_str(Self::get_footer());
+
         all
     }
 }
