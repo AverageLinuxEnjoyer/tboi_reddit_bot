@@ -2,7 +2,7 @@ use anyhow::Result;
 use distance::damerau_levenshtein;
 use std::collections::{HashMap, HashSet};
 
-use crate::collectible::Collectible;
+use crate::collectible::{Collectible, CollectibleType, ItemType, NonPickupType};
 pub struct Repo {
     pub collectibles: Vec<Collectible>,
     pub redirects: HashMap<&'static str, Vec<&'static str>>,
@@ -32,10 +32,25 @@ impl Repo {
 
         for name in names {
             let name = name.to_lowercase();
+            let maybe_id = name.parse::<u32>();
 
             for c in &self.collectibles {
-                if damerau_levenshtein(&c.name.to_lowercase(), &name) <= 1 && !res.contains(&c) {
+                if damerau_levenshtein(&c.name.to_lowercase(), &name) <= 1 {
                     res.push(c);
+                    break; // we only add the first similar name found
+                }
+
+                if let CollectibleType::NonPickup {
+                    id,
+                    non_pickup_type: NonPickupType::Item { .. },
+                    ..
+                } = &c.collectible_type
+                {
+                    if let Ok(certainly_id) = maybe_id {
+                        if certainly_id == *id {
+                            res.push(c);
+                        }
+                    }
                 }
             }
 
@@ -44,7 +59,7 @@ impl Repo {
                     redirects.push(*redirect.0);
                     for r in redirect.1 {
                         for c in &self.collectibles {
-                            if &c.name == r && !res.contains(&c) {
+                            if &c.name == r {
                                 res.push(c);
                             }
                         }
@@ -52,6 +67,10 @@ impl Repo {
                 }
             }
         }
+
+        // eliminate duplicates from res
+        let mut res_set = HashSet::new();
+        res.retain(|x| res_set.insert(*x));
 
         self.handle_special_redirects(&redirects);
         res

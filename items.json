@@ -4137,29 +4137,6 @@
     "wiki_link": "https://bindingofisaacrebirth.fandom.com/wiki/Sigil_of_Baphomet"
   },
   {
-    "name": "Clear Rune",
-    "description": "\nWhen used, copies the effect of the Rune or Soul stone you are holding (like the Blank Card)\nDrops a random rune on the floor when picked up\nThe recharge time of this item depends on the Rune/Soul Stone held:\n1 room: Soul of Lazarus\n2 rooms: Rune of Ansuz, Rune of Berkano, Rune of Hagalaz, Soul of Cain\n3 rooms: Rune of Algiz, Blank Rune, Soul of Magdalene, Soul of Judas, Soul of ???, Soul of the Lost\n4 rooms: Rune of Ehwaz, Rune of Perthro, Black Rune, Soul of Isaac, Soul of Eve, Soul of Eden, Soul of the Forgotten, Soul of Jacob and Esau\n6 rooms: Rune of Dagaz, Soul of Samson, Soul of Azazel, Soul of Apollyon, Soul of Bethany\n12 rooms: Rune of Jera, Soul of Lilith, Soul of the Keeper",
-    "collectible_type": {
-      "NonPickup": {
-        "id": 263,
-        "quote": "Rune mimic",
-        "non_pickup_type": {
-          "Item": {
-            "quality": 2,
-            "item_type": {
-              "Active": {
-                "recharge_time": "Varies",
-                "item_pool": "Secret Room, Crane Game"
-              }
-            }
-          }
-        }
-      }
-    },
-    "unlock": null,
-    "wiki_link": "https://bindingofisaacrebirth.fandom.com/wiki/Clear_Rune"
-  },
-  {
     "name": "The Sad Onion",
     "description": "\n+0.7 Tears Up",
     "collectible_type": {
@@ -14677,7 +14654,7 @@
       }
     },
     "unlock": null,
-    "wiki_link": "https://bindingofisaacrebirth.fandom.com/wiki/Cancer"
+    "wiki_link": "https://bindingofisaacrebirth.fandom.com/wiki/Cancer_(Trinket)"
   },
   {
     "name": "Red Patch",

@@ -12,7 +12,7 @@ pub enum ItemType {
 #[derive(Debug, Serialize, Deserialize, PartialEq, Eq, Hash, Clone)]
 pub enum CollectibleType {
     NonPickup {
-        id: i32,
+        id: u32,
         quote: String,
         non_pickup_type: NonPickupType,
     },

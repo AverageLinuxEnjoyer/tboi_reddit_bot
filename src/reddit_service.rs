@@ -41,9 +41,8 @@ impl RedditService {
     }
 
     //? is a function even needed here?
-    fn get_description_formatted(description_raw: &str) -> String {
-        description_raw.replace('\n', "\n\n> ").trim().to_string()
-    }
+    // fn get_description_formatted(description_raw: &str) -> String {
+    // }
 
     //? make this a const variable instead?
     //? or perhaps keep it a function, but let it return a String
@@ -106,38 +105,16 @@ impl RedditService {
 
             let mut body = String::new();
 
-            let id = match id_ {
-                Some(id) => format!("[Id: {}]", id),
-                None => String::new(),
-            };
+            body.push_str(&get_first_line(id_, quote_, name, wiki_link));
 
-            let quote = match quote_ {
-                Some(q) => format!(" - *\"{}\"*", q),
-                None => String::new(),
-            };
+            body.push_str(&get_second_line(
+                collectible_type_,
+                recharge_time_,
+                quality_,
+                item_pool_,
+            ));
 
-            let first_line = format!("{} [{}]({}){}\n\n", id, name, wiki_link, quote);
-            body.push_str(&first_line);
-
-            let quality = match quality_ {
-                Some(quality) => format!(", **Quality:** {}", quality),
-                None => String::new(),
-            };
-
-            let second_line = format!("**Type:** {}{}\n\n", collectible_type_, quality);
-            body.push_str(&second_line);
-
-            if let Some(time) = recharge_time_ {
-                body.push_str(&format!("**Recharge time:** {}\n", time))
-            };
-
-            body.push_str("\n---\n\n");
-            body.push_str(&Self::get_description_formatted(desc));
-            body.push_str("\n\n---\n\n");
-
-            if let Some(pool) = item_pool_.as_ref() {
-                body.push_str(&format!("**Item pool:** {}\n\n", pool));
-            }
+            body.push_str(&get_description_lines(desc));
 
             if let Some(unlock) = unlock.as_ref() {
                 body.push_str(&format!("**Unlock:** {}\n\n", unlock));
@@ -152,4 +129,58 @@ impl RedditService {
 
         all
     }
+}
+
+fn get_first_line(
+    id: Option<&u32>,
+    quote: Option<&String>,
+    name: &String,
+    wiki_link: &String,
+) -> String {
+    let id = match id {
+        Some(id) => format!("Id: {}", id),
+        None => String::new(),
+    };
+
+    let quote = match quote {
+        Some(q) => format!(" - *\"{}\"*", q),
+        None => String::new(),
+    };
+
+    format!("[\\[{}\\] {}]({}){}\n\n", id, name, wiki_link, quote)
+}
+
+fn get_second_line(
+    collectible_type: String,
+    recharge_time: Option<&String>,
+    quality: Option<&u8>,
+    item_pool: Option<String>,
+) -> String {
+    let collectible_type = format!("**Type:** {}", collectible_type);
+
+    let recharge_time = match recharge_time {
+        Some(time) => format!(", **Recharge time:** {}\n", time.clone()),
+        None => String::new(),
+    };
+
+    let quality = match quality {
+        Some(quality) => format!(", **Quality:** {}", quality),
+        None => String::new(),
+    };
+
+    let item_pool = match item_pool {
+        Some(pool) => format!(", **Item pool:** {}", pool),
+        None => String::new(),
+    };
+
+    format!(
+        "{}{}{}{}\n\n",
+        collectible_type, recharge_time, quality, item_pool
+    )
+}
+
+fn get_description_lines(description: &str) -> String {
+    let formatted_description = description.replace('\n', "\n\n> ").trim().to_string();
+
+    format!("\n---\n\n{}\n\n---\n\n", formatted_description)
 }
