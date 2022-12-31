@@ -24,7 +24,7 @@ async fn init(
     Ok(MainService {
         repo: Repo::new(include_str!("../items.json"))?,
         reddit_service: RedditService::new(credentials)
-            .subreddit("onlyfans")
+            .subreddit("bindingofisaac")
             .sleep_time(Duration::from_secs(5))
             .build()
             .await?,
