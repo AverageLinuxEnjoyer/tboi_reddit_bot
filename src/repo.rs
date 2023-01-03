@@ -59,16 +59,16 @@ impl Repo {
                             break; // we only add the first similar name found
                         }
                     }
-                }
-            }
 
-            for redirect in &self.redirects {
-                if damerau_levenshtein(&redirect.0.to_lowercase(), &name) <= 1 {
-                    redirects.push(*redirect.0);
-                    for r in redirect.1 {
-                        for c in &self.collectibles {
-                            if &c.name == r {
-                                res.push(c);
+                    for redirect in &self.redirects {
+                        if damerau_levenshtein(&redirect.0.to_lowercase(), &name) <= 1 {
+                            redirects.push(*redirect.0);
+                            for r in redirect.1 {
+                                for c in &self.collectibles {
+                                    if &c.name == r {
+                                        res.push(c);
+                                    }
+                                }
                             }
                         }
                     }
