@@ -21,8 +21,10 @@ async fn init(
     let credentials = Credentials::new(secret_store)?;
     info!("Credentials loaded succesfully.");
 
+    let content = std::fs::read_to_string("items.json")?;
+
     Ok(MainService {
-        repo: Repo::new(include_str!("../items.json"))?,
+        repo: Repo::new(&content)?,
         reddit_service: RedditService::new(credentials)
             .subreddit("bindingofisaac")
             .sleep_time(Duration::from_secs(5))

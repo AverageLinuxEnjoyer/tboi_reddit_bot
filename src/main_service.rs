@@ -26,8 +26,6 @@ impl shuttle_service::Service for MainService {
 
 impl MainService {
     async fn start(&mut self) -> Result<(), CustomError> {
-        info!("Main service started.");
-
         let retry_strategy = ExponentialBackoff::from_millis(5).factor(100).take(3);
 
         let mut stream = stream_comments(
@@ -37,6 +35,8 @@ impl MainService {
             Some(Duration::from_secs(10)),
         )
         .0;
+
+        info!("Main service started.");
 
         while let Some(comment) = stream.next().await {
             let (comment_fullname, comment_author, comment_body) = match || -> Result<_> {

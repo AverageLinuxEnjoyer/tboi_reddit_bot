@@ -16808,7 +16808,7 @@
       "NonPickup": {
         "id": 78,
         "quote": "???",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this card by opening Mom's Box on the Home floor.",
@@ -16821,7 +16821,7 @@
       "NonPickup": {
         "id": 79,
         "quote": "<3",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this card by defeating Mega Satan as Tainted Magdalene",
@@ -16834,7 +16834,7 @@
       "NonPickup": {
         "id": 80,
         "quote": "Again",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this card by defeating Mega Satan as Tainted Eden",
@@ -16847,7 +16847,7 @@
       "NonPickup": {
         "id": 81,
         "quote": "Reroll... or not",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Isaac",
@@ -16860,7 +16860,7 @@
       "NonPickup": {
         "id": 82,
         "quote": "Give me your love!",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Magdalene",
@@ -16873,7 +16873,7 @@
       "NonPickup": {
         "id": 83,
         "quote": "Opens the unopenable",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Cain",
@@ -16886,7 +16886,7 @@
       "NonPickup": {
         "id": 84,
         "quote": "Right behind you",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Judas",
@@ -16899,7 +16899,7 @@
       "NonPickup": {
         "id": 85,
         "quote": "Chemical warfare",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Blue Baby",
@@ -16912,7 +16912,7 @@
       "NonPickup": {
         "id": 86,
         "quote": "Your very own murder",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Eve",
@@ -16925,7 +16925,7 @@
       "NonPickup": {
         "id": 87,
         "quote": "Slay a thousand",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Samson",
@@ -16938,7 +16938,7 @@
       "NonPickup": {
         "id": 88,
         "quote": "Demon rage!",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Azazel",
@@ -16951,7 +16951,7 @@
       "NonPickup": {
         "id": 89,
         "quote": "Life after death",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Lazarus",
@@ -16964,7 +16964,7 @@
       "NonPickup": {
         "id": 90,
         "quote": "Embrace chaos",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Eden",
@@ -16977,7 +16977,7 @@
       "NonPickup": {
         "id": 91,
         "quote": "Leave your body behind",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Lost",
@@ -16990,7 +16990,7 @@
       "NonPickup": {
         "id": 92,
         "quote": "Motherhood",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Lilith",
@@ -17003,7 +17003,7 @@
       "NonPickup": {
         "id": 93,
         "quote": "$$$",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Keeper",
@@ -17016,7 +17016,7 @@
       "NonPickup": {
         "id": 94,
         "quote": "Bringer of calamity",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Apollyon",
@@ -17029,7 +17029,7 @@
       "NonPickup": {
         "id": 95,
         "quote": "Skeletal protector",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Forgotten",
@@ -17042,7 +17042,7 @@
       "NonPickup": {
         "id": 96,
         "quote": "Friends from beyond",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Bethany",
@@ -17055,7 +17055,7 @@
       "NonPickup": {
         "id": 97,
         "quote": "Bound by blood",
-        "non_pickup_type": "Trinket"
+        "non_pickup_type": "Consumable"
       }
     },
     "unlock": "Unlock this item by defeating Hush and Boss Rush as Tainted Jacob",
