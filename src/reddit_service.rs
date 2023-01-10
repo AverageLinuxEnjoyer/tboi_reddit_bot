@@ -1,4 +1,5 @@
 use crate::collectible::*;
+use crate::logfile::read_logs;
 use crate::{credentials::Credentials, reddit_service_builder::RedditServiceBuilder};
 use anyhow::{Error, Result};
 use reqwest::Response;
@@ -33,6 +34,15 @@ impl RedditService {
         collectibles.truncate(5);
 
         let body = Self::get_body(&collectibles);
+
+        self.client
+            .comment(&body, comment_fullname)
+            .await
+            .map_err(|err| Error::msg(err.to_string()))
+    }
+
+    pub async fn reply_logs(&mut self, comment_fullname: &str) -> Result<Response> {
+        let body = read_logs(10);
 
         self.client
             .comment(&body, comment_fullname)

@@ -3,7 +3,10 @@ use distance::damerau_levenshtein;
 use std::collections::{HashMap, HashSet};
 use tracing::info;
 
-use crate::collectible::{Collectible, CollectibleType, ItemType, NonPickupType};
+use crate::{
+    collectible::{Collectible, CollectibleType, ItemType, NonPickupType},
+    logfile,
+};
 pub struct Repo {
     pub collectibles: Vec<Collectible>,
     pub redirects: HashMap<&'static str, Vec<&'static str>>,
@@ -23,6 +26,7 @@ impl Repo {
         );
 
         info!("Items loaded succesfully.");
+        logfile::logfile("Items loaded succesfully.");
 
         Ok(Self {
             collectibles,

@@ -1,4 +1,4 @@
-use crate::{reddit_service::RedditService, repo::Repo, utils::extract_strings_between};
+use crate::{logfile, reddit_service::RedditService, repo::Repo, utils::extract_strings_between};
 use anyhow::{Error, Result};
 use futures::StreamExt;
 use roux_stream::stream_comments;
@@ -37,57 +37,63 @@ impl MainService {
         .0;
 
         info!("Main service started.");
+        logfile::logfile("Main service started.");
 
-        while let Some(comment) = stream.next().await {
-            let (comment_fullname, comment_author, comment_body) = match || -> Result<_> {
-                let comment = comment?;
+        loop {
+            while let Some(comment) = stream.next().await {
+                let (comment_fullname, comment_author, comment_body) = match || -> Result<_> {
+                    let comment = comment?;
 
-                let id = comment.id.ok_or_else(|| Error::msg("no id"))?;
-                let fullname = format!("t1_{}", id);
+                    let id = comment.id.ok_or_else(|| Error::msg("no id"))?;
+                    let fullname = format!("t1_{}", id);
 
-                let author = comment.author.ok_or_else(|| Error::msg("no author"))?;
+                    let author = comment.author.ok_or_else(|| Error::msg("no author"))?;
 
-                let body = comment.body.ok_or_else(|| Error::msg("no body"))?;
+                    let body = comment.body.ok_or_else(|| Error::msg("no body"))?;
 
-                Ok((fullname, author, body))
-            }() {
-                Ok(res) => res,
-                Err(_) => continue,
-            };
+                    Ok((fullname, author, body))
+                }() {
+                    Ok(res) => res,
+                    Err(_) => continue,
+                };
 
-            let keywords = extract_strings_between(&comment_body);
+                if comment_body.contains("{{logs}}") {
+                    let _ = self.reddit_service.reply_logs(&comment_fullname).await;
+                }
 
-            if keywords.is_empty() {
-                continue;
+                let keywords = extract_strings_between(&comment_body);
+
+                if keywords.is_empty() {
+                    continue;
+                }
+
+                let collectibles = self.repo.get_collectibles(&keywords);
+
+                if collectibles.is_empty() {
+                    continue;
+                }
+
+                let response = self
+                    .reddit_service
+                    .reply(&comment_fullname, &collectibles)
+                    .await;
+
+                let msg = match response {
+                    Ok(_) => format!(
+                        "Replied to [{}, {}] with info about: {:?}",
+                        comment_author,
+                        comment_fullname,
+                        collectibles
+                            .into_iter()
+                            .map(|c| &c.name)
+                            .collect::<Vec<&String>>()
+                    ),
+                    Err(err) => format!("Replying to a comment didn't work, error: {}", err),
+                };
+
+                info!(msg);
+                logfile::logfile(&msg);
             }
-
-            let collectibles = self.repo.get_collectibles(&keywords);
-
-            if collectibles.is_empty() {
-                continue;
-            }
-
-            let response = self
-                .reddit_service
-                .reply(&comment_fullname, &collectibles)
-                .await;
-
-            let msg = match response {
-                Ok(_) => format!(
-                    "Replied to [{}, {}] with info about: {:?}",
-                    comment_author,
-                    comment_fullname,
-                    collectibles
-                        .into_iter()
-                        .map(|c| &c.name)
-                        .collect::<Vec<&String>>()
-                ),
-                Err(err) => format!("Replying to a comment didn't work, error: {}", err),
-            };
-
-            info!(msg);
         }
-
-        todo!();
     }
 }
