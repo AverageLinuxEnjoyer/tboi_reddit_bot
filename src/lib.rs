@@ -22,7 +22,7 @@ async fn init(
     let credentials = Credentials::new(secret_store)?;
 
     info!("Credentials loaded succesfully.");
-    logfile::logfile("Credentials loaded succesfully.");
+    logfile::logfile("Credentials loaded succesfully.")?;
 
     let content = std::fs::read_to_string("items.json")?;
 

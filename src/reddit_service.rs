@@ -5,7 +5,6 @@ use anyhow::{Error, Result};
 use reqwest::Response;
 use roux::{Me, Subreddit};
 use std::time::Duration;
-use tracing::info;
 
 pub struct RedditService {
     pub client: Me,

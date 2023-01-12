@@ -1,6 +1,6 @@
 use ::time::{format_description, OffsetDateTime};
 use anyhow::Result;
-use shuttle_service::tracing_subscriber::fmt::format;
+
 use std::{
     fs::OpenOptions,
     io::{Read, Write},

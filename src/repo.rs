@@ -4,7 +4,7 @@ use std::collections::{HashMap, HashSet};
 use tracing::info;
 
 use crate::{
-    collectible::{Collectible, CollectibleType, ItemType, NonPickupType},
+    collectible::{Collectible, CollectibleType, NonPickupType},
     logfile,
 };
 pub struct Repo {
@@ -26,7 +26,7 @@ impl Repo {
         );
 
         info!("Items loaded succesfully.");
-        logfile::logfile("Items loaded succesfully.");
+        logfile::logfile("Items loaded succesfully.")?;
 
         Ok(Self {
             collectibles,
