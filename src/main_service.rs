@@ -2,7 +2,7 @@ use crate::{logfile, reddit_service::RedditService, repo::Repo, utils::extract_s
 use anyhow::{Error, Result};
 use futures::StreamExt;
 use roux_stream::stream_comments;
-use shuttle_service::error::CustomError;
+use shuttle_service::{error::CustomError, tracing_subscriber::fmt::format};
 use std::time::Duration;
 use tokio_retry::strategy::ExponentialBackoff;
 use tracing::info;
@@ -57,7 +57,7 @@ impl MainService {
                     Err(_) => continue,
                 };
 
-                if comment_body.contains("{{logs}}") {
+                if comment_body.contains("{{logs}}") && comment_author == "nerooooooo" {
                     let _ = self.reddit_service.reply_logs(&comment_fullname).await;
                 }
 

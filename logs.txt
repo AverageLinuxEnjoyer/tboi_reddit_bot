@@ -1,0 +1,10 @@
+[2023-01-12 21:08:25]:	Credentials loaded succesfully.
+[2023-01-12 21:08:25]:	Items loaded succesfully.
+[2023-01-12 21:08:26]:	Main service started.
+[2023-01-12 21:16:12]:	Replied to [nerooooooo, t1_j435kp4] with info about: ["Brimstone"]
+[2023-01-12 21:17:24]:	Requested logs.
+[2023-01-12 21:19:27]:	Credentials loaded succesfully.
+[2023-01-12 21:19:27]:	Items loaded succesfully.
+[2023-01-12 21:19:29]:	Main service started.
+[2023-01-12 21:19:30]:	Requested logs.
+[2023-01-12 21:19:32]:	Replied to [nerooooooo, t1_j435kp4] with info about: ["Brimstone"]
